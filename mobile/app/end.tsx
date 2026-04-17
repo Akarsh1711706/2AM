@@ -35,7 +35,7 @@ export default function EndScreen() {
   const theme = getTheme();
   const router = useRouter();
   const { userId, updateTrustScore } = useSession();
-  const { sessionId, mood } = useLocalSearchParams<{ sessionId: string; mood: string }>();
+  const { sessionId, mood, partnerUserId } = useLocalSearchParams<{ sessionId: string; mood: string; partnerUserId: string }>();
 
   const [selectedRating, setSelectedRating] = useState<RatingEmoji | null>(null);
   const [showReportFollowUp, setShowReportFollowUp] = useState(false);
@@ -55,7 +55,7 @@ export default function EndScreen() {
 
   const submitRating = (rating: RatingEmoji) => {
     if (sessionId) {
-      emitRating({ sessionId, ratedUserId: '', rating });
+      emitRating({ sessionId, ratedUserId: partnerUserId || '', rating });
     }
     updateTrustScore(2); // +2 for completing session
     setSubmitted(true);

@@ -59,6 +59,7 @@ export default function MatchingScreen() {
           agoraToken: matchData.agoraToken,
           role: matchData.role,
           partnerMood: matchData.partnerMood,
+          partnerUserId: matchData.partnerUserId,
           phase: matchData.phase,
           mood,
         },

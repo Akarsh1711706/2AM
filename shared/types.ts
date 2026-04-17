@@ -72,6 +72,7 @@ export interface MatchFoundPayload {
   agoraToken: string;
   role: SessionRole;
   partnerMood: Mood;
+  partnerUserId: string;
   phase: SessionPhase;
 }
 

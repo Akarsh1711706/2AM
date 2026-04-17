@@ -52,6 +52,7 @@ export const tryMatch = async (
         agoraToken: generateAgoraToken(agoraChannel, newEntry.userId),
         role: role1,
         partnerMood: candidate.mood,
+        partnerUserId: candidate.userId,
         phase: 'phase1' as SessionPhase,
       };
 
@@ -61,6 +62,7 @@ export const tryMatch = async (
         agoraToken: generateAgoraToken(agoraChannel, candidate.userId),
         role: role2,
         partnerMood: newEntry.mood,
+        partnerUserId: newEntry.userId,
         phase: 'phase1' as SessionPhase,
       };
 

@@ -30,7 +30,7 @@ export const useTimer = (onExpire?: () => void): UseTimerReturn => {
       setIsRunning(true);
       intervalRef.current = setInterval(() => {
         setSeconds((prev) => {
-          if (prev <= 1) {
+          if (prev <= 0) {
             stop();
             onExpireRef.current?.();
             return 0;

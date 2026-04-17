@@ -51,6 +51,7 @@ export default function ChatScreen() {
     agoraToken: string;
     role: SessionRole;
     partnerMood: string;
+    partnerUserId: string;
     phase: SessionPhase;
     mood: string;
   }>();
@@ -186,7 +187,7 @@ export default function ChatScreen() {
 
   const submitReport = (category: ReportCategory) => {
     if (!params.sessionId || !userId) return;
-    emitReport({ sessionId: params.sessionId, reportedUserId: '', category });
+    emitReport({ sessionId: params.sessionId, reportedUserId: params.partnerUserId || '', category });
     handleEndSession();
   };
 
@@ -197,7 +198,7 @@ export default function ChatScreen() {
     agoraService.leave();
     router.replace({
       pathname: '/end',
-      params: { sessionId: params.sessionId, mood: params.mood },
+      params: { sessionId: params.sessionId, mood: params.mood, partnerUserId: params.partnerUserId },
     });
   };
 

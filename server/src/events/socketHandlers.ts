@@ -17,18 +17,22 @@ export const registerSocketHandlers = (io: SocketServer): void => {
     io.emit('online_count', { count: onlineUsers.size });
   }, 5000);
 
-  // Phase change handler
+  // Phase change handler — swaps roles between phase1 and phase2
   sessionManager.onPhaseChange(async (sessionId, nextPhase, session) => {
+    // In phase2 roles swap: user1 (who was speaker in phase1) becomes listener
+    const user1PhaseRole = (nextPhase === 'phase2') ? 'listener' : 'speaker';
+    const user2PhaseRole = (nextPhase === 'phase2') ? 'speaker' : 'listener';
+
     const payload1: PhaseChangePayload = {
       sessionId,
       newPhase: nextPhase,
-      newRole: nextPhase === 'phase2' ? 'listener' : 'speaker', // simplified
+      newRole: user1PhaseRole,
       phaseStartedAt: Date.now(),
     };
     const payload2: PhaseChangePayload = {
       sessionId,
       newPhase: nextPhase,
-      newRole: nextPhase === 'phase2' ? 'speaker' : 'listener',
+      newRole: user2PhaseRole,
       phaseStartedAt: Date.now(),
     };
 
