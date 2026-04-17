@@ -34,7 +34,7 @@ class SessionManager {
   async startSession(sessionId: string, session: SessionData): Promise<void> {
     const redis = await getRedis();
     await redis.set(KEYS.session(sessionId), JSON.stringify(session), { EX: 3600 });
-    sessionTimer.schedule(sessionId, 'phase1', this.handlePhaseExpiry.bind(this));
+    sessionTimer.schedule(sessionId, 'phase1', this.handlePhaseExpiry);
   }
 
   async advancePhase(sessionId: string, nextPhase: SessionPhase): Promise<void> {
@@ -46,7 +46,7 @@ class SessionManager {
     await redis.set(KEYS.session(sessionId), JSON.stringify(session), { EX: 3600 });
 
     if (nextPhase !== 'ended') {
-      sessionTimer.schedule(sessionId, nextPhase, this.handlePhaseExpiry.bind(this));
+      sessionTimer.schedule(sessionId, nextPhase, this.handlePhaseExpiry);
     }
 
     this.phaseChangeCallbacks.forEach((cb) => cb(sessionId, nextPhase, session));
@@ -58,9 +58,9 @@ class SessionManager {
     await redis.del(KEYS.session(sessionId));
   }
 
-  private async handlePhaseExpiry(sessionId: string, nextPhase: SessionPhase): Promise<void> {
+  private handlePhaseExpiry = async (sessionId: string, nextPhase: SessionPhase): Promise<void> => {
     await this.advancePhase(sessionId, nextPhase);
-  }
+  };
 }
 
 export const sessionManager = new SessionManager();

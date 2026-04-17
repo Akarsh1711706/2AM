@@ -40,6 +40,8 @@ const PHASE_DURATIONS: Record<SessionPhase, number> = {
 
 const SILENCE_PROMPT_SECONDS = 60;
 const SILENCE_END_SECONDS = 90;
+// Minimum volume level (0-100) to consider the user as not silent
+const VOLUME_SILENCE_THRESHOLD = 5;
 
 export default function ChatScreen() {
   const theme = getTheme();
@@ -145,7 +147,7 @@ export default function ChatScreen() {
     if (phase === 'open' || (isSpeaker && (phase === 'phase1' || phase === 'phase2'))) {
       silenceRef.current = 0;
       silenceInterval.current = setInterval(() => {
-        if (volume > 5) {
+        if (volume > VOLUME_SILENCE_THRESHOLD) {
           silenceRef.current = 0;
           setSilenceSeconds(0);
         } else {

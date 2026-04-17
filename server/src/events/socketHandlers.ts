@@ -19,9 +19,10 @@ export const registerSocketHandlers = (io: SocketServer): void => {
 
   // Phase change handler — swaps roles between phase1 and phase2
   sessionManager.onPhaseChange(async (sessionId, nextPhase, session) => {
-    // In phase2 roles swap: user1 (who was speaker in phase1) becomes listener
-    const user1PhaseRole = (nextPhase === 'phase2') ? 'listener' : 'speaker';
-    const user2PhaseRole = (nextPhase === 'phase2') ? 'speaker' : 'listener';
+    // In phase2 roles swap: user1 (who was speaker in phase1) becomes listener.
+    // In 'open' phase both users can speak freely (no role restriction).
+    const user1PhaseRole = nextPhase === 'phase2' ? 'listener' : 'speaker';
+    const user2PhaseRole = nextPhase === 'phase2' ? 'speaker' : 'listener';
 
     const payload1: PhaseChangePayload = {
       sessionId,

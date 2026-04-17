@@ -46,6 +46,8 @@ export const useMatching = (): UseMatchingReturn => {
       setStatus('searching');
       setMatchData(null);
 
+      // Remove any previous listener before registering a new one
+      offMatchFound();
       onMatchFound((data) => {
         offMatchFound();
         setMatchData(data);
